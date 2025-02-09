@@ -23,11 +23,7 @@ test.describe('Test alerts', () => {
     });
 });
 test.describe('Test alerts using the alerts api helper', () => {
-    test('Test getting active alerts without params returns a 200', async ({ alertsApiHelper }) => {
-        const response = await alertsApiHelper.getAlerts();
-        expect(response.status()).toBe(200);
-    });
-    test('Test alerts using the alerts api helper', async ({ alertsApiHelper }) => {
+    test('Test getting alerts without params returns a 200', async ({ alertsApiHelper }) => {
         const response = await alertsApiHelper.getAlerts();
         expect(response.status()).toBe(200);
     });
