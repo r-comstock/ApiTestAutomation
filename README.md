@@ -1,2 +1,2 @@
 # ApiTestAutomation
- Example rest api testing using the National Weather Service
+ Example rest api testing using Playwright to test the National Weather Service
