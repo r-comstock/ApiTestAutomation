@@ -1,5 +1,7 @@
 import { test, expect } from '../test-setup';
 import { ActiveAlertsCountResponse } from '../helpers/Alerts/Alerts';
+import { ActiveAlertsTypesResponse } from '../helpers/Alerts/Alerts';
+import { expectedAlertTypes } from '../helpers/Alerts/Alerts';
 
 test.describe('Test alerts', () => {    
     test('Test getting alerts returns a 200', async ({ request, endpoints }) => {
@@ -72,5 +74,33 @@ test.describe('Test alerts using the alerts api helper', () => {
             expect(typeof data.areas).toBe('object');
             expect(typeof data.zones).toBe('object');
         }
+    });
+});
+test.describe('Test alerts types', () => {
+    test('Test getting alert tyes returns a 200', async ({ alertsApiHelper }) => {
+        const alertTypes = await alertsApiHelper.getAlertTypes();  
+        expect(alertTypes.status()).toBe(200);
+    });
+    test('Test the correct alert types are returned', async ({ alertsApiHelper }) => {
+        const response = await alertsApiHelper.getAlertTypes();
+        const data: ActiveAlertsTypesResponse = await response.json();
+        expect(data['@context']).toEqual([]);
+        expect(Array.isArray(data.eventTypes)).toBe(true);
+        expect(data.eventTypes.length).toBe(expectedAlertTypes.length);
+        expect(data.eventTypes).toEqual(expect.arrayContaining(expectedAlertTypes));
+    });
+});
+test.describe('Test getting alerts by id', () => {
+    test('Test getting alerts by id returns a 200', async ({ alertsApiHelper }) => {
+        const alerts = await alertsApiHelper.getActiveAlerts();
+        const data = await alerts.json();
+        const alertId = data.features[0].id;
+        console.log(alertId);
+        const response = await alertsApiHelper.getAlertsById(alertId);
+        expect(response.status()).toBe(200);
+    });
+    test('Test getting alerts by id returns a 404', async ({ alertsApiHelper }) => {
+        const response = await alertsApiHelper.getAlertsById('2022-01-01T00:00:00Z');
+        expect(response.status()).toBe(404);
     });
 });
