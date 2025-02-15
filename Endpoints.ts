@@ -1,6 +1,7 @@
 export class Endpoints {
     readonly alerts: string;
     readonly aviation: string;
+    
     readonly glossary: string;
     readonly activeAlerts: string;
     readonly activeAlertsCount: string;
