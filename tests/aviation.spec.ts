@@ -1,6 +1,5 @@
 import { test, expect } from '../test-setup';
-import FeatureCollection from '../helpers/Aviation/AviationSigmets';
-import { isValidResponse } from '../helpers/Aviation/AviationSigmets';
+import { isValidResponse} from '../helpers/aviation/aviation-sigmets';
 
 const sigmets = "/sigmets";
 test.describe('Test aviation sigmets endpoint', () => {    

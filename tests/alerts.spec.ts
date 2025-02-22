@@ -1,7 +1,5 @@
 import { test, expect } from '../test-setup';
-import { ActiveAlertsCountResponse } from '../helpers/Alerts/Alerts';
-import { ActiveAlertsTypesResponse } from '../helpers/Alerts/Alerts';
-import { expectedAlertTypes } from '../helpers/Alerts/Alerts';
+import { ActiveAlertsCountResponse, ActiveAlertsTypesResponse, expectedAlertTypes } from '../helpers/alerts/alerts';
 
 test.describe('Test alerts', () => {    
     test('Test getting alerts returns a 200', async ({ request, endpoints }) => {
@@ -25,12 +23,12 @@ test.describe('Test alerts', () => {
     });
 });
 test.describe('Test alerts using the alerts api helper', () => {
-    test('Test getting alerts without params returns a 200', async ({ alertsApiHelper }) => {
-        const response = await alertsApiHelper.getAlerts();
+    test('Test getting alerts without params returns a 200', async ({ alertsClient }) => {
+        const response = await alertsClient.getAlerts();
         expect(response.status()).toBe(200);
     });
-    test('Test active alerts count response', async ({ alertsApiHelper }) => {
-        const response = await alertsApiHelper.getActiveAlertsCount();
+    test('Test active alerts count response', async ({ alertsClient }) => {
+        const response = await alertsClient.getActiveAlertsCount();
         const data = await response.json();
         expect(response.status()).toBe(200);
         expect(response).toBeDefined();
@@ -77,12 +75,12 @@ test.describe('Test alerts using the alerts api helper', () => {
     });
 });
 test.describe('Test alerts types', () => {
-    test('Test getting alert tyes returns a 200', async ({ alertsApiHelper }) => {
-        const alertTypes = await alertsApiHelper.getAlertTypes();  
+    test('Test getting alert tyes returns a 200', async ({ alertsClient }) => {
+        const alertTypes = await alertsClient.getAlertTypes();  
         expect(alertTypes.status()).toBe(200);
     });
-    test('Test the correct alert types are returned', async ({ alertsApiHelper }) => {
-        const response = await alertsApiHelper.getAlertTypes();
+    test('Test the correct alert types are returned', async ({ alertsClient }) => {
+        const response = await alertsClient.getAlertTypes();
         const data: ActiveAlertsTypesResponse = await response.json();
         expect(data['@context']).toEqual([]);
         expect(Array.isArray(data.eventTypes)).toBe(true);
@@ -91,16 +89,16 @@ test.describe('Test alerts types', () => {
     });
 });
 test.describe('Test getting alerts by id', () => {
-    test('Test getting alerts by id returns a 200', async ({ alertsApiHelper }) => {
-        const alerts = await alertsApiHelper.getActiveAlerts();
+    test('Test getting alerts by id returns a 200', async ({ alertsClient }) => {
+        const alerts = await alertsClient.getActiveAlerts();
         const data = await alerts.json();
         const alertId = data.features[0].id;
         console.log(alertId);
-        const response = await alertsApiHelper.getAlertsById(alertId);
+        const response = await alertsClient.getAlertsById(alertId);
         expect(response.status()).toBe(200);
     });
-    test('Test getting alerts by id returns a 404', async ({ alertsApiHelper }) => {
-        const response = await alertsApiHelper.getAlertsById('2022-01-01T00:00:00Z');
+    test('Test getting alerts by id returns a 404', async ({ alertsClient }) => {
+        const response = await alertsClient.getAlertsById('2022-01-01T00:00:00Z'); //invalid id
         expect(response.status()).toBe(404);
     });
 });
