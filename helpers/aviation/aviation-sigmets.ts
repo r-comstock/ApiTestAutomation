@@ -76,3 +76,12 @@ export function isValidResponse(data:FeatureCollection): boolean {
   }        
   return true;
 };
+
+
+export interface AviationSigmetsGetParams {
+  start?: string;
+  end?: string;
+  date?: string; //YYYY-MM-DD
+  atsu?: string;
+  sequence?: string;
+};
